@@ -1,4 +1,4 @@
-// Moteur 1
+// Controle moteur arduino 
 int ENA = 10;
 int IN1 = 9;
 int IN2 = 8;
