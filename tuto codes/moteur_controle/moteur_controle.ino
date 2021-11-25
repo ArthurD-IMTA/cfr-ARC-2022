@@ -5,7 +5,7 @@ int IN2 = 8;
 int pot = A0; /*port du potentiomètre */
 int potValue = 0;
 
-void setup (){
+void setup_motors (){
  // on déclare les pins comme sorties
  pinMode (ENA, OUTPUT);
  pinMode (IN1, OUTPUT);
