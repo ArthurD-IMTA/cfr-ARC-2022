@@ -1,5 +1,6 @@
 #include "Arduino.h"
 #include "Trayectories.h"
+#include "MotorControl.h"
 
 // Motor macro constants
 #define W_MAX 14
@@ -15,8 +16,7 @@ double conf = 1; // Angle configuration will change within the script
 
 void setup() {
   // Initialize Motor Control
-  //M
-  
+  setup_motors();
   Serial.begin(9600);
 }
 
@@ -49,7 +49,7 @@ void loop() {
   for(int i=0;i<k_lim;i++){
     get_motor_speed_line(&Angles, i*T0,tau,T,w);
     // Motor Control
-    
+    set_motor_speed(&Angles);
     Serial.println(Angles.w1);
     delay(10); 
   }
@@ -61,7 +61,7 @@ void loop() {
   for(int i=0;i<k_lim;i++){
     get_motor_speed_angle(&Angles, i*T0,tau,T,w,conf);
     // Motor Control
-    
+    set_motor_speed(&Angles);
     Serial.println(Angles.w1);
     delay(10); 
   }
