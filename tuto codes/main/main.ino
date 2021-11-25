@@ -1,11 +1,7 @@
 #include "Arduino.h"
 #include "Trayectories.h"
 #include "MotorControl.h"
-
-// Motor macro constants
-#define W_MAX 14
-#define RADIUS_WHEEL 0.01
-#define DIST_WHEELS 0.32
+#include "MotorParam.h"
 
 // Orientation macros, could be changed
 #define Y_ORIENTATION 0 
@@ -50,10 +46,12 @@ void loop() {
     get_motor_speed_line(&Angles, i*T0,tau,T,w);
     // Motor Control
     set_motor_speed(&Angles);
-    Serial.println(Angles.w1);
     delay(10); 
   }
-  
+  set_motor_speed_zero();
+
+  delay(1000);// DEBUG
+
   T = calculate_T(W_MAX,RADIUS_WHEEL,beta,alpha, DIST_WHEELS*angle);
   tau = beta*T;
   k_lim = (2*tau + T) / T0;
@@ -62,8 +60,11 @@ void loop() {
     get_motor_speed_angle(&Angles, i*T0,tau,T,w,conf);
     // Motor Control
     set_motor_speed(&Angles);
-    Serial.println(Angles.w1);
     delay(10); 
   }
   
+  set_motor_speed_zero();
+  
+  delay(1000);// DEBUG
+
 }
