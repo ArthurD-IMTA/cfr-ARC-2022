@@ -33,9 +33,6 @@ void set_motor_speed(struct motor_angles* Angles){
   
   aux2 = map(aux2,0,W_MAX,0,255);
   
-  Serial.println(aux2); //DEBUG
- 
-  
   if (Angles->w1 > 0) {
     change_state_motor(true, false, aux1,DIGITAL_OUT1_1,DIGITAL_OUT2_1,ANALOG_OUT_1);
   }else {

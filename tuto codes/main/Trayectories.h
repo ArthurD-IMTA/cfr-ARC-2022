@@ -29,10 +29,10 @@ double calcul_s(double T, double tau, double k_T0) {
   double inv_tau = 1 / tau;
   if (k_T0 < tau) {
     return k_T0 * inv_tau;
-  }else if (k_T0 < tau + T) {
+  }else if (k_T0 < T) {
     return 1;
   } else {
-    return ((2*tau + T) - k_T0) * inv_tau;
+    return ((tau + T) - k_T0) * inv_tau;
   }
 }
 
@@ -50,7 +50,6 @@ void get_motor_speed_line(struct motor_angles* Angles, double k_T0,double tau, d
 double calculate_T(double v_max, double radius, double beta, double alpha, double dist){
   return dist / (v_max * alpha * radius * (1 + beta)); 
 }
-
 
 // Returns w1 and w2 in struct at time kT0 form s(t) with param T,tau,v. 
 void get_motor_speed_angle(struct motor_angles* Angles, double k_T0,double tau, double T, double v, int conf){

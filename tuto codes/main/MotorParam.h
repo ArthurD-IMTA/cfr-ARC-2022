@@ -2,7 +2,7 @@
 #define _MOTOR_PARAMETERS_H_
 
 // Motor macro constants
-#define W_MAX 14
+#define W_MAX 2000
 #define RADIUS_WHEEL 0.01
 #define DIST_WHEELS 0.32
 
