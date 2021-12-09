@@ -31,17 +31,18 @@ void set_motor_speed(struct motor_angles* Angles){
    aux2 *= -1;
   }
   
-  aux2 = map(aux2,0,W_MAX,0,255);
+  aux2 = map(aux2 + W_MAX,0,2*W_MAX,0,255);
   
+  Serial.println(aux2);
   if (Angles->w1 > 0) {
     change_state_motor(true, false, aux1,DIGITAL_OUT1_1,DIGITAL_OUT2_1,ANALOG_OUT_1);
   }else {
      change_state_motor(false, true, aux1,DIGITAL_OUT1_1,DIGITAL_OUT2_1,ANALOG_OUT_1);
   }
   if (Angles->w2 > 0) {
-    change_state_motor(HIGH, LOW, aux2,DIGITAL_OUT1_2,DIGITAL_OUT2_2,ANALOG_OUT_2);
+    change_state_motor(true, false, aux2,DIGITAL_OUT1_2,DIGITAL_OUT2_2,ANALOG_OUT_2);
   }else {
-    change_state_motor(LOW, HIGH, aux2,DIGITAL_OUT1_2,DIGITAL_OUT2_2,ANALOG_OUT_2);
+    change_state_motor(false, true, aux2,DIGITAL_OUT1_2,DIGITAL_OUT2_2,ANALOG_OUT_2);
   }
 }
 

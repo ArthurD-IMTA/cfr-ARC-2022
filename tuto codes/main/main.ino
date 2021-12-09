@@ -31,8 +31,8 @@ void loop() {
     y_taget = points_to_traverse[k][1] - actual_position[1];
   
     // Point velocity profile parameters 
-    tau = 1; // Time to ramp up / down to / from max speed
-    T = 9; // Time to start ramping down (T >= tau)
+    tau = 0.01; // Time to ramp up / down to / from max speed
+    T = 0.02; // Time to start ramping down (T >= tau)
     
     // Parameter calculation for point x_target, y_target
     dist = get_dist2D(x_target, y_taget);
@@ -52,23 +52,23 @@ void loop() {
       get_motor_speed_angle(&Angles, i*T0,tau,T,w,conf);
       // Motor Control
       set_motor_speed(&Angles);
-      //Serial.println(Angles.w1); // DEBUG
-      delay(10); //DEBUG?
+      // DEBUG Serial.println(Angles.w1); // DEBUG
+      // DEBUG delay(10); //DEBUG?
     }
     
     set_motor_speed_zero();
-    delay(100);// DEBUG
+    delay(1000);// DEBUG
   
     // Line speed configuration
-    tau = 5;
-    T = 45; 
+    tau = 0.02;
+    T = 0.05; 
     
     for(int i=0;i<((tau + T) / T0);i++){
       get_motor_speed_line(&Angles, i*T0,tau,T,w);
       // Motor Control
       set_motor_speed(&Angles);
-      // DEBUG Serial.println(Angles.w1);
-      delay(10); //DEBUG?
+      // DEBUGSerial.println(Angles.w1);
+      // DEBUG delay(10); //DEBUG?
     }
     set_motor_speed_zero();
   
