@@ -24,7 +24,7 @@ void change_state_motor(bool D1, bool D2, int analog_value, int DOUT1, int DOUT2
 
 void set_motor_speed(struct motor_angles* Angles){
   // Auxiliary values for the if's
-  int aux1 = map(Angles->w1 + W_MAX,0,2*W_MAX,0,100);
+  int aux1 = map(Angles->w1 + W_MAX,0,2*W_MAX,0,255);
   
   int aux2 = Angles->w2;
   if (aux2 < 0){

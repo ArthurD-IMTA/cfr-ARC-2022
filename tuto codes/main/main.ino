@@ -17,56 +17,65 @@ void setup() {
 }
 
 void loop() {
-  
-  // Point definition
-  double x_target = 1;
-  double y_taget = 1;
 
-  // Point velocity profile parameters where; w = alpha * w_max and tau = beta * T
-  double T0 = 0.001;
-  double tau = 0.1;
-  double T = 0.11; // (T >= tau)
+  unsigned int N_points_to_traverse = 2;
+  double points_to_traverse[N_points_to_traverse][2] = {{1,0},{2,0}};
+  double T0 = 1e-5; // Sampling time
+
+  double actual_position[2] = {0,0};
+  double x_target, y_taget, tau, T, dist, angle, w;
   
-  // Parameter calculation for point x_target, y_target
-  double dist = get_dist2D(x_target, y_taget);
-  double angle = get_angle2D(x_target, y_taget, X_ORIENTATION, Y_ORIENTATION);
-  double w = min(1/T, W_MAX);
+  for (unsigned int k = 0; k<N_points_to_traverse; k++) {
+    // Point definition
+    x_target = points_to_traverse[k][0] - actual_position[0];
+    y_taget = points_to_traverse[k][1] - actual_position[1];
   
+    // Point velocity profile parameters 
+    tau = 1; // Time to ramp up / down to / from max speed
+    T = 9; // Time to start ramping down (T >= tau)
+    
+    // Parameter calculation for point x_target, y_target
+    dist = get_dist2D(x_target, y_taget);
+    angle = get_angle2D(x_target, y_taget, X_ORIENTATION, Y_ORIENTATION);
+    
+    w = min(1/T, W_MAX);
+    
+    if (angle < 0) {
+      conf = -1;
+    }else{ 
+      conf = 1;
+    }
+    
+    // Angle speed configuration
   
-  if (angle < 0) {
-    conf = -1;
-  }else{ 
-    conf = 1;
+    for(int i=0;i<((tau + T) / T0);i++){
+      get_motor_speed_angle(&Angles, i*T0,tau,T,w,conf);
+      // Motor Control
+      set_motor_speed(&Angles);
+      //Serial.println(Angles.w1); // DEBUG
+      delay(10); //DEBUG?
+    }
+    
+    set_motor_speed_zero();
+    delay(100);// DEBUG
+  
+    // Line speed configuration
+    tau = 5;
+    T = 45; 
+    
+    for(int i=0;i<((tau + T) / T0);i++){
+      get_motor_speed_line(&Angles, i*T0,tau,T,w);
+      // Motor Control
+      set_motor_speed(&Angles);
+      // DEBUG Serial.println(Angles.w1);
+      delay(10); //DEBUG?
+    }
+    set_motor_speed_zero();
+  
+    delay(100);// DEBUG
+
+    // Update the new position
+    actual_position[0] = points_to_traverse[k][0];
+    actual_position[1] = points_to_traverse[k][1];
   }
-  
-  // Angle speed configuration
-  int k_lim = (tau + T) / T0;
-  
-  for(int i=0;i<k_lim;i++){
-    get_motor_speed_angle(&Angles, i*T0,tau,T,w,conf);
-    // Motor Control
-    set_motor_speed(&Angles);
-    Serial.println(Angles.w1);
-    delay(10); //DEBUG?
-  }
-  
-  set_motor_speed_zero();
-  delay(100);// DEBUG
-
-  // Line speed configuration
-  tau = 10;
-  T = 10.11; 
-  k_lim = (tau + T) / T0;
-  
-  for(int i=0;i<k_lim;i++){
-    get_motor_speed_line(&Angles, i*T0,tau,T,w);
-    // Motor Control
-    set_motor_speed(&Angles);
-    Serial.println(Angles.w1);
-    delay(10); //DEBUG?
-  }
-  set_motor_speed_zero();
-
-  delay(100);// DEBUG
-
 }
