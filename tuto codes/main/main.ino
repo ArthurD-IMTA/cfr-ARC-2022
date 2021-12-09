@@ -47,7 +47,7 @@ void loop() {
     // Motor Control
     set_motor_speed(&Angles);
     Serial.println(Angles.w1);
-    delay(10); 
+    delay(10); //DEBUG?
   }
   
   set_motor_speed_zero();
@@ -63,7 +63,7 @@ void loop() {
     // Motor Control
     set_motor_speed(&Angles);
     Serial.println(Angles.w1);
-    delay(10); 
+    delay(10); //DEBUG?
   }
   set_motor_speed_zero();
 
