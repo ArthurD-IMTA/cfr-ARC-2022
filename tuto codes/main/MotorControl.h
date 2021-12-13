@@ -3,6 +3,11 @@
 #include "MotorParam.h"
 #include "Trayectories.h"
 
+void setup_motors();
+void change_state_motor(bool D1, bool D2, int analog_value, int DOUT1, int DOUT2, int AOUT);
+void set_motor_speed(struct motor_angles* Angles);
+void set_motor_speed_zero();
+
 void setup_motors() {
   // Initialisation des variables pour le moteur
   pinMode(ANALOG_OUT_1, OUTPUT);

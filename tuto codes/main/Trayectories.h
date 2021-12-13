@@ -1,6 +1,12 @@
 #ifndef _TRAYECTORIES_H_
 #define _TRAYECTORIES_H_
 
+double get_dist2D(double Px, double Py);
+double get_angle2D(double Px, double Py, double kx, double ky);
+double calcul_s(double T, double tau, double k_T0);
+void get_motor_speed_line(struct motor_angles* Angles, double k_T0,double tau, double T, double w_max);
+void get_motor_speed_angle(struct motor_angles* Angles, double k_T0,double tau, double T, double w_max, int conf);
+
 // Struct for the motor angles
 struct motor_angles {
   double w1;
@@ -37,25 +43,19 @@ double calcul_s(double T, double tau, double k_T0) {
 }
 
 // Returns w1 and w2 in struct at time kT0 form s(t) with param T,tau,v. 
-void get_motor_speed_line(struct motor_angles* Angles, double k_T0,double tau, double T, double v){
+void get_motor_speed_line(struct motor_angles* Angles, double k_T0,double tau, double T, double w_max){
    // calcul ds/dt (kT0)
   double s = calcul_s(T, tau, k_T0);
-  double aux = s * v;
+  double aux = s * w_max;
   Angles->w1 = aux;
   Angles->w2 = aux;
 }
 
-// Calculate necesary T for beta in (0,1) (percentage of tau, tau = beta * T)
-// and alpha such that v = alpha * v_max
-double calculate_T(double v_max, double radius, double beta, double alpha, double dist){
-  return dist / (v_max * alpha * radius * (1 + beta)); 
-}
-
 // Returns w1 and w2 in struct at time kT0 form s(t) with param T,tau,v. 
-void get_motor_speed_angle(struct motor_angles* Angles, double k_T0,double tau, double T, double v, int conf){
+void get_motor_speed_angle(struct motor_angles* Angles, double k_T0,double tau, double T, double w_max, int conf){
    // calcul ds/dt (kT0)
   double s = calcul_s(T, tau, k_T0);
-  double aux = s * v;
+  double aux = s * w_max;
   Angles->w1 = aux * conf;
   Angles->w2 = -aux * conf;
 }
