@@ -19,7 +19,7 @@ void setup() {
 void loop() {
 
   unsigned int N_points_to_traverse = 2;
-  double points_to_traverse[N_points_to_traverse][2] = {{1,0},{2,0}};
+  double points_to_traverse[N_points_to_traverse][2] = {{0.1,0},{0.2,0}};
   double T0 = 1e-5; // Sampling time
 
   double actual_position[2] = {0,0};
