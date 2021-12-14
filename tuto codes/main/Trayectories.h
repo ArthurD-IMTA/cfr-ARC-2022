@@ -1,6 +1,8 @@
 #ifndef _TRAYECTORIES_H_
 #define _TRAYECTORIES_H_
 
+#define DIV_180_PI 57.29577951
+
 double get_dist2D(double Px, double Py);
 double get_angle2D(double Px, double Py, double kx, double ky);
 double calcul_s(double T, double tau, double k_T0);
@@ -22,7 +24,7 @@ double get_dist2D(double Px, double Py) {
 double get_angle2D(double Px, double Py, double kx, double ky){
   double norm_p = sqrt(Px*Px + Py*Py);
   double norm_k = sqrt(kx*kx + ky*ky);
-  double result = acos((Px*kx + Py*ky) / (norm_p * norm_k)) * 57.29577951;
+  double result = acos((Px*kx + Py*ky) / (norm_p * norm_k)) * DIV_180_PI;
   // Converts to degree
   if (Py < ky) {
     result = -result;
@@ -46,7 +48,8 @@ double calcul_s(double T, double tau, double k_T0) {
 void get_motor_speed_line(struct motor_angles* Angles, double k_T0,double tau, double T, double w_max){
    // calcul ds/dt (kT0)
   double s = calcul_s(T, tau, k_T0);
-  double aux = s * w_max;
+  //double aux = s * w_max;
+  double aux = s;
   Angles->w1 = aux;
   Angles->w2 = aux;
 }
@@ -55,7 +58,8 @@ void get_motor_speed_line(struct motor_angles* Angles, double k_T0,double tau, d
 void get_motor_speed_angle(struct motor_angles* Angles, double k_T0,double tau, double T, double w_max, int conf){
    // calcul ds/dt (kT0)
   double s = calcul_s(T, tau, k_T0);
-  double aux = s * w_max;
+  //double aux = s * w_max;
+  double aux = s;
   Angles->w1 = aux * conf;
   Angles->w2 = -aux * conf;
 }

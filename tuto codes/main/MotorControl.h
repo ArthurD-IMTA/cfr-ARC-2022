@@ -29,16 +29,19 @@ void change_state_motor(bool D1, bool D2, int analog_value, int DOUT1, int DOUT2
 
 void set_motor_speed(struct motor_angles* Angles){
   // Auxiliary values for the if's
-  int aux1 = map(Angles->w1 + W_MAX,0,2*W_MAX,0,255);
+  //int aux1 = map(Angles->w1 + W_MAX,0,2*W_MAX,8,255);
+  int aux1 = map(Angles->w1,0,1,40,255);
   
   int aux2 = Angles->w2;
   if (aux2 < 0){
    aux2 *= -1;
   }
   
-  aux2 = map(aux2 + W_MAX,0,2*W_MAX,0,255);
+  //aux2 = map(aux2 + W_MAX,0,2*W_MAX,8,255);
+  // Right motor
+  aux2 = map(aux2,0,1,40,255);
+
   
-  Serial.println(aux2);
   if (Angles->w1 > 0) {
     change_state_motor(true, false, aux1,DIGITAL_OUT1_1,DIGITAL_OUT2_1,ANALOG_OUT_1);
   }else {

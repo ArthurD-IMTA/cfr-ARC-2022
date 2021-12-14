@@ -2,7 +2,7 @@
 #define _MOTOR_PARAMETERS_H_
 
 // Motor macro constants
-#define W_MAX 30 // 7000 From the datasheet, keep in mind the operating range curve
+#define W_MAX 200 // 7000 From the datasheet, keep in mind the operating range curve
 #define RADIUS_WHEEL 0.036 // 36 mm meassured
 #define DIST_WHEELS 0.252 // Measured 126 mm
 
