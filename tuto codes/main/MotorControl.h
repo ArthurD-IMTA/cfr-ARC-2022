@@ -3,6 +3,8 @@
 #include "MotorParam.h"
 #include "Trayectories.h"
 
+int debug_angle = 0;
+
 void setup_motors();
 void change_state_motor(bool D1, bool D2, int analog_value, int DOUT1, int DOUT2, int AOUT);
 void set_motor_speed(struct motor_angles* Angles);
@@ -30,16 +32,18 @@ void change_state_motor(bool D1, bool D2, int analog_value, int DOUT1, int DOUT2
 void set_motor_speed(struct motor_angles* Angles){
   // Auxiliary values for the if's
   //int aux1 = map(Angles->w1 + W_MAX,0,2*W_MAX,8,255);
-  int aux1 = map(Angles->w1,0,1,40,255);
+  
+  int aux1 = map(Angles->w1,0,1,42,100);
   
   int aux2 = Angles->w2;
   if (aux2 < 0){
    aux2 *= -1;
   }
+  aux2 = map(aux2,0,1,42,100);
   
   //aux2 = map(aux2 + W_MAX,0,2*W_MAX,8,255);
   // Right motor
-  aux2 = map(aux2,0,1,40,255);
+  
 
   
   if (Angles->w1 > 0) {

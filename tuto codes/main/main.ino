@@ -6,6 +6,8 @@
 motor_angles Angles; // Main angle struct
 double conf = 1; // Angle configuration will change within the script
 
+
+
 void setup() {
   // Initialize Motor Control
   setup_motors();
@@ -42,15 +44,18 @@ void loop() {
     w = min(1/(T-tau), W_MAX);
     
     // Angle speed configuration
-  
+    aux = 0 ;  
     for(int i=0;i<((tau + T) / T0);i++){
+      
       get_motor_speed_angle(&Angles, i*T0,tau,T,w,conf);
       // Motor Control
       set_motor_speed(&Angles);
       // DEBUG Serial.println(Angles.w1); // DEBUG
       // DEBUG delay(10); //DEBUG?
       delay(T0 * 1000); // Wait for sampling time to elapse 
+      
     }
+    debug_angle = debug_angle + 2;
     
     set_motor_speed_zero();
     delay(500);// DEBUG
@@ -63,7 +68,7 @@ void loop() {
     for(int i=0;i<((tau + T) / T0);i++){
       get_motor_speed_line(&Angles, i*T0,tau,T,w);
       // Motor Control
-      set_motor_speed(&Angles);
+      //set_motor_speed(&Angles);
       delay(T0 * 1000);
     }
     set_motor_speed_zero();

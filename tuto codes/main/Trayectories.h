@@ -36,11 +36,11 @@ double get_angle2D(double Px, double Py, double kx, double ky){
 double calcul_s(double T, double tau, double k_T0) {
   double inv_tau = 1 / tau;
   if (k_T0 < tau) {
-    return k_T0 * inv_tau;
+    return 1/T* k_T0 * inv_tau;
   }else if (k_T0 < T) {
-    return 1;
+    return 1/T;
   } else {
-    return ((tau + T) - k_T0) * inv_tau;
+    return ((tau + T) - k_T0) * inv_tau * 1/T;
   }
 }
 
