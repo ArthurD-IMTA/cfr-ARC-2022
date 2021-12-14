@@ -20,14 +20,14 @@ void loop() {
   // Parameter calculation for point x_target, y_target
   dist = 0.1;
   angle = 90;
-  int N_turns = 10;
-  int N_lines = 10;
+  int N_turns = 4;
+  int N_lines = 2;
 
   calculate_motor_final_angles(&Angles, dist, angle);
   
   // Angle velocity profile parameters 
-  tau = 2; // Time to ramp up / down to / from max achieved speed
-  T = 1; // Time to start ramping down (T >= tau)
+  tau = 1; // Time to ramp up / down to / from max achieved speed
+  T = 2; // Time to start ramping down (T >= tau)
   
   // Condition to not exceed W_MAX with small values of T
   if (Angles.theta_angle_final / T > W_MAX) {
