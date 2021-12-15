@@ -14,50 +14,45 @@ void setup() {
 
 void loop() {
 
-  unsigned int N_points_to_traverse = 2;
-  double points_to_traverse[N_points_to_traverse][2] = {{1,0},{1,1}, {0,1}, {0,0}};
-  double T0 = 1e-5; // Sampling time
+  double T0 = 1e-2; // Sampling time
+  double tau, T, dist, angle;
+  
+  // Parameter calculation for point x_target, y_target
+  dist = 0.1;
+  angle = 90;
+  int N_turns = 4;
 
-  double actual_position[2] = {0,0};
-  double orientation[2] = {0,1};
-  double x_target, y_taget, tau, T, dist, angle, w;
+  calculate_motor_final_angles(&Angles, dist, angle);
   
-  for (unsigned int k = 0; k<N_points_to_traverse; k++) {
-    // Point definition
-    x_target = points_to_traverse[k][0] - actual_position[0];
-    y_taget = points_to_traverse[k][1] - actual_position[1];
+  double T_div_debug = 38;
+  double T_div_debug_lin = 0.5;
+  Angles.theta_length_final = Angles.theta_length_final * T_div_debug_lin;
   
-    // Parameter calculation for point x_target, y_target
-    dist = get_dist2D(x_target, y_taget);
-    angle = get_angle2D(x_target, y_taget, orientation[0], orientation[1]);
-    if (angle < 0) {
-      conf = -1;
-    }else{ 
-      conf = 1;
-    }
-    calculate_motor_final_angles(&Angles, dist, angle);
+  
+  
+  for(int k=0; k<N_turns; k++){   
     
     // Angle velocity profile parameters 
     tau = 0.2; // Time to ramp up / down to / from max achieved speed
-    T = 0.6; // Time to start ramping down (T >= tau)
+    T = 3; // Time to start ramping down (T >= tau)
     // Condition to not exceed W_MAX with small values of T
     if (Angles.theta_angle_final / T > W_MAX) {
       T = Angles.theta_angle_final / W_MAX;
     }
-         
-    for(int i=0;i<((tau + T) / T0);i++){
+    
+    for(int i=0;i<((tau + T/T_div_debug) / T0);i++){
       // Motor Control
       get_motor_speed_angle(&Angles, i*T0,tau,T,conf);
       set_motor_speed(&Angles);
       delay(T0 * 1000); // Wait for sampling time to elapse 
     }
     set_motor_speed_zero();
+    delay(1000);
+
     
-    delay(500);// DEBUG
-  
-    // Line speed configuration
-    tau = 0.2; // Time to ramp up / down to / from max achieved speed
-    T = 0.6; // Time to start ramping down (T >= tau)
+    // Line velocity profile parameters 
+    tau = 0.1; // Time to ramp up / down to / from max achieved speed
+    T = 0.1; // Time to start ramping down (T >= tau)
     // Condition to not exceed W_MAX with small values of T
     if (Angles.theta_length_final / T > W_MAX) {
       T = Angles.theta_length_final / W_MAX;
@@ -70,15 +65,6 @@ void loop() {
       delay(T0 * 1000);
     }
     set_motor_speed_zero();
-  
-    delay(500);// DEBUG
-
-    // Update the new position
-    actual_position[0] = points_to_traverse[k][0];
-    actual_position[1] = points_to_traverse[k][1];
-    // Update new orientation
-    double aux = orientation[0];
-    orientation[0] = cos(angle*PI/180) * orientation[0] - sin(angle*PI/180) * orientation[1];
-    orientation[1] = sin(angle*PI/180) * aux + cos(angle*PI/180) * orientation[1];
+    delay(1000);
   }
 }

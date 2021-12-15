@@ -40,14 +40,14 @@ void set_motor_speed(struct motor_angles* Angles){
   
   //aux2 = map(aux2 + W_MAX,0,2*W_MAX,8,255);
 
-  double min_val_DEBUG = 30;
+  double min_val_DEBUG = 0, val_max = 255;
   
   //int aux1 = map(Angles->w1 + W_MAX, 0, 2*W_MAX, 30, 255);
   //int aux2 = map(Angles->w2 + W_MAX, 0, 2*W_MAX, 30, 255);
   
   // Map the values from 0 to 255
-  int aux1 = float(Angles->w1 + W_MAX) * 255 / (2*W_MAX);
-  int aux2 = float(Angles->w2 + W_MAX) * 255 / (2*W_MAX);
+  int aux1 = abs(Angles->w1) * val_max / (W_MAX);
+  int aux2 = abs(Angles->w2) * val_max / (W_MAX);
   // For the smaller values give 0 since the motors dont move and are not equal at low voltage
   if (aux1 < min_val_DEBUG){
     aux1 = 0;

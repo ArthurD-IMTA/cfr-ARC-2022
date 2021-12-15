@@ -68,7 +68,7 @@ void get_motor_speed_angle(struct motor_angles* Angles, double k_T0,double tau, 
 
 void calculate_motor_final_angles(struct motor_angles* Angles, double dist, double angle){
   Angles->theta_length_final = dist / RADIUS_WHEEL;
-  Angles->theta_angle_final = angle * DIST_WHEELS / (2*RADIUS_WHEEL);
+  Angles->theta_angle_final = ((angle / DIV_180_PI)  * DIST_WHEELS) / (2*RADIUS_WHEEL);
 }
 
 
