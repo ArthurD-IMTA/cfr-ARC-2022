@@ -1,5 +1,6 @@
 #include"position.h"
 
+/* Used in a previous version -- It allows us to calculate the new position of the robot without calculate dL as it is the case in the function new_pos()
 void calculate_position(int* xt, int* xtt, int* yt, int* ytt, float* thetat, float* thetatt, float thetaRt, float thetaRtt, float thetaLt, float thetaLtt, int r, int d_wheels){
   if (abs(thetaRtt-thetaRt)<0.04 && abs(thetaLtt-thetaLt)<0.04){    //Minimum displacement
     *xt = *xtt;
@@ -19,7 +20,7 @@ void calculate_position(int* xt, int* xtt, int* yt, int* ytt, float* thetat, flo
     *thetatt = *thetat + float(r)*(thetaLtt+thetaRt-thetaLt-thetaRtt)/d_wheels;
     *thetat = stock_float;
   }
-}
+}*/
 
 
 void new_position(int* xt, int* xtt, int* yt, int* ytt, float thetat, float dl){
@@ -35,15 +36,13 @@ void send_position(int xtt, int ytt, float thetatt, float thetaRtt, float thetaL
   Serial.println(dataToSent);
 }
 
-
-
 float inc_to_rad(int inc, int nbr_turn, int max_inc, int ratio){
   float thetaRad=(nbr_turn+inc/max_inc)*2*PI/ratio;
   return thetaRad;
 }
 
 
-// --------- Timer function ------------
+// --------- Timer1 function -----------
 // -------------------------------------
 void init_timer1(int counter){
   noInterrupts();                 //Desactivate interruptions to avoid problems
@@ -78,7 +77,7 @@ float PID_L(float order, float actual_value, int Kp, int Ki, int Kd, float dt){
   static float Iterm = 0;
   static float last_error = 0;
   static float last_value = 0;
-  Iterm += Ki*(error+last_error)*dt/2;
+  Iterm += Ki*(error+last_error)*dt/2;      //With static float we can integrate the value only by making sums
   last_error = error;
   float result = Kp*error + Iterm - Kd*(actual_value-last_value)/dt;
   last_value = actual_value;

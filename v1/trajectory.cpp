@@ -15,7 +15,6 @@ float modulo(float x, float y){
 }
 
 float setpoint_generation(float amax, float vmax, float vi, float qi, float qf, float t){ 
-//if newT==1 we calculate another setpoint else, we keep the same values calculated before
 //t must be greater than 0
   if (qi == qf){
     return qi;
@@ -64,7 +63,7 @@ float setpoint_generation(float amax, float vmax, float vi, float qi, float qf, 
 }
 
 
-float angle_setpoint(float theta, float theta_setpoint){
+float angle_setpoint(float theta, float theta_setpoint){ //this function allows us to minimize the rotation of the robot including the fact that theta could be greater than 2pi
   theta_setpoint = modulo(theta_setpoint,2*PI);
   float theta_mod = modulo(theta,2*PI);
   if (abs(theta_setpoint-theta_mod)<=PI){
